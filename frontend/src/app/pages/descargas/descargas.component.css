@@ -1,0 +1,123 @@
+.descargas-container {
+  min-height: 100vh;
+  background: #0a0a0f;
+  color: #f0f0f8;
+}
+
+.header {
+  background: #111118;
+  border-bottom: 1px solid #2a2a3a;
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #f5c518;
+  margin: 0;
+}
+
+.contenido {
+  padding: 40px 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.estado {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.estado-icono {
+  font-size: 48px;
+}
+
+.estado h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.estado p {
+  font-size: 14px;
+  color: #7070a0;
+  max-width: 280px;
+}
+
+.bienvenida {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bienvenida-icono { font-size: 48px; }
+
+.bienvenida h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.bienvenida p {
+  font-size: 14px;
+  color: #7070a0;
+  margin: 0;
+}
+
+.btn-descargar-todas {
+  background: #f5c518 !important;
+  color: #0a0a0f !important;
+  font-weight: 700;
+  height: 48px;
+  width: 100%;
+  font-size: 15px;
+}
+
+.fotos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.foto-item {
+  background: #1a1a25;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.foto-numero {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-descargar {
+  color: #f5c518 !important;
+  border-color: rgba(245,197,24,.3) !important;
+}
+
+.btn-volver {
+  background: #f5c518 !important;
+  color: #0a0a0f !important;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.nota {
+  font-size: 12px;
+  color: #7070a0;
+  text-align: center;
+  line-height: 1.6;
+}

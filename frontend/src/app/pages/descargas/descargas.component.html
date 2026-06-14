@@ -1,0 +1,65 @@
+<div class="descargas-container">
+
+  <header class="header">
+    <h1 class="logo">{{ nombreApp }}</h1>
+  </header>
+
+  <!-- CARGANDO -->
+  <main class="contenido" *ngIf="cargando">
+    <div class="estado">
+      <div class="estado">
+        <mat-icon style="font-size:48px;width:48px;height:48px;color:#7070a0">hourglass_empty</mat-icon>
+      </div>
+      <p>Verificando tu solicitud...</p>
+    </div>
+  </main>
+
+  <!-- ERROR -->
+  <main class="contenido" *ngIf="!cargando && error">
+    <div class="estado">
+      <div class="estado">
+        <mat-icon style="font-size:48px;width:48px;height:48px;color:#e8433a">error_outline</mat-icon>
+      </div>
+      <h2>No disponible</h2>
+      <p>{{ error }}</p>
+      <button mat-flat-button class="btn-volver"
+        (click)="router.navigate(['/galeria'])">
+        Ir a la galería
+      </button>
+    </div>
+  </main>
+
+  <!-- FOTOS DISPONIBLES -->
+  <main class="contenido" *ngIf="!cargando && datos">
+    <div class="bienvenida">
+      <div class="bienvenida-icono">
+        <mat-icon style="font-size:48px;width:48px;height:48px;color:#f5c518">photo_camera</mat-icon>
+      </div>
+      <h2>¡Hola, {{ datos.nombre_jugador }}!</h2>
+      <p>Tus {{ datos.total_fotos }} foto{{ datos.total_fotos > 1 ? 's' : '' }} están listas para descargar en alta resolución.</p>
+    </div>
+
+    <button mat-flat-button class="btn-descargar-todas"
+      *ngIf="datos.total_fotos > 1"
+      (click)="descargarTodas()">
+      <mat-icon>download</mat-icon>
+      Descargar todas ({{ datos.total_fotos }})
+    </button>
+
+    <div class="fotos-lista">
+      <div class="foto-item" *ngFor="let link of datos.links; let i = index">
+        <div class="foto-numero">Foto {{ i + 1 }}</div>
+        <button mat-stroked-button class="btn-descargar"
+          (click)="descargarFoto(link)">
+          <mat-icon>download</mat-icon>
+          Descargar
+        </button>
+      </div>
+    </div>
+
+    <p class="nota">
+      Guardá las fotos en tu dispositivo. El link puede dejar de funcionar si el fotógrafo borra el partido.
+    </p>
+  </main>
+
+</div>

@@ -1,0 +1,105 @@
+<div class="subir-container">
+
+  <header class="header">
+    <button mat-icon-button (click)="volver()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ partidoActual ? 'Subir fotos' : 'Crear partido' }}</h1>
+  </header>
+
+  <main class="contenido">
+
+    <!-- PASO 1: Crear partido si no hay uno seleccionado -->
+    <section class="seccion" *ngIf="!partidoActual">
+      <h2 class="seccion-titulo">Paso 1 — Datos del partido</h2>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título del partido</mat-label>
+        <input matInput [(ngModel)]="tituloPartido" placeholder="Ej: Los Pumas vs Atlético FC"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Fecha</mat-label>
+        <input matInput type="date" [(ngModel)]="fechaPartido"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Precio por foto ($)</mat-label>
+        <input matInput type="number" [(ngModel)]="precioFoto"/>
+      </mat-form-field>
+
+      <button mat-flat-button class="btn-accion"
+        (click)="crearPartido()"
+        [disabled]="!tituloPartido || !fechaPartido || creandoPartido">
+        {{ creandoPartido ? 'Creando...' : 'Continuar →' }}
+      </button>
+    </section>
+
+    <!-- PASO 2: Subir fotos -->
+    <section class="seccion" *ngIf="partidoActual">
+      <h2 class="seccion-titulo">
+        Paso 2 — Fotos para {{ partidoActual.titulo }}
+      </h2>
+
+      <!-- Zona de selección -->
+      <label class="upload-zone" for="file-input">
+        <mat-icon>cloud_upload</mat-icon>
+        <span>Tocá para seleccionar fotos</span>
+        <span class="upload-sub">Podés seleccionar varias a la vez</span>
+        <input id="file-input" type="file" multiple accept="image/*"
+          (change)="onArchivosSeleccionados($event)" hidden/>
+      </label>
+
+      <!-- Progreso general -->
+      <div class="progreso-general" *ngIf="archivos.length > 0">
+        <div class="progreso-info">
+          <span>{{ fotosListas() }} / {{ archivos.length }} fotos</span>
+          <span>{{ progresoTotal() }}%</span>
+        </div>
+        <mat-progress-bar mode="determinate" [value]="progresoTotal()">
+        </mat-progress-bar>
+      </div>
+
+      <!-- Lista de archivos -->
+      <div class="archivos-lista">
+        <div class="archivo-item" *ngFor="let a of archivos; let i = index">
+          <mat-icon class="archivo-icono" [class]="'icono-' + a.estado">
+            {{ a.estado === 'listo' ? 'check_circle' :
+               a.estado === 'error' ? 'error' : 'image' }}
+          </mat-icon>
+          <div class="archivo-info">
+            <span class="archivo-nombre">{{ a.archivo.name }}</span>
+            <mat-progress-bar *ngIf="a.estado === 'subiendo'"
+              mode="determinate" [value]="a.progreso">
+            </mat-progress-bar>
+          </div>
+          <button mat-icon-button *ngIf="a.estado === 'pendiente'"
+            (click)="removerArchivo(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón subir -->
+      <button mat-flat-button class="btn-accion"
+        *ngIf="archivos.length > 0"
+        (click)="subirTodas()"
+        [disabled]="subiendoFotos || fotosListas() === archivos.length">
+        {{ subiendoFotos ? 'Subiendo...' : 
+         fotosListas() === archivos.length && archivos.length > 0 ? '✓ Fotos subidas' : 
+         'Subir ' + archivos.length + ' fotos' }}
+      </button>
+
+      <!-- Botón saltar -->
+      <button mat-stroked-button class="btn-saltar"
+        *ngIf="!subiendoFotos"
+        (click)="router.navigate(['/admin/dashboard'])">
+        {{ archivos.length === 0 ? 'Subir fotos después →' : 'Ir al dashboard →' }}
+      </button>
+
+
+    </section>
+
+  </main>
+
+</div>

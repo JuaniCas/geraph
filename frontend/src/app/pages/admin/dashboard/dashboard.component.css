@@ -1,0 +1,197 @@
+.dashboard {
+  min-height: 100vh;
+  background: #0a0a0f;
+  color: #f0f0f8;
+}
+
+.header {
+  background: #111118;
+  border-bottom: 1px solid #2a2a3a;
+  padding: 0 20px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #f5c518;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.contenido {
+  padding: 24px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.seccion {
+  margin-bottom: 40px;
+}
+
+.seccion-titulo {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge-nuevo {
+  background: #e8433a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.vacio {
+  color: #7070a0;
+  font-size: 14px;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.solicitud-card, .partido-card {
+  background: #1a1a25;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.solicitud-info, .partido-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.solicitud-nombre, .partido-titulo {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.solicitud-contacto, .partido-meta {
+  font-size: 12px;
+  color: #7070a0;
+}
+
+.solicitud-total {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f5c518;
+}
+
+.solicitud-fotos {
+  font-size: 11px;
+  color: #f5c518;
+  margin-top: 2px;
+}
+
+.solicitud-acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.chip-nueva { background: rgba(232,67,58,.15); color: #e8433a; }
+.chip-contactado { background: rgba(245,197,24,.15); color: #f5c518; }
+.chip-entregada { background: rgba(34,197,94,.15); color: #22c55e; }
+
+.btn-crear {
+  background: #f5c518 !important;
+  color: #0a0a0f !important;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+.partido-acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-eliminar {
+  color: #e8433a !important;
+}
+
+.partido-card.inactivo {
+  opacity: 0.6;
+  border-color: #1a1a25;
+}
+
+.partido-titulo-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chip-inactivo {
+  background: rgba(112,112,160,.15);
+  color: #7070a0;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.btn-warning {
+  color: #f5c518 !important;
+  border-color: rgba(245,197,24,.3) !important;
+  font-size: 12px !important;
+}
+
+.btn-success {
+  color: #22c55e !important;
+  border-color: rgba(34,197,94,.3) !important;
+  font-size: 12px !important;
+}
+
+.solicitud-partido {
+  font-size: 12px;
+  color: #f5c518;
+  margin-top: 2px;
+}
+
+.btn-copy {
+  color: #f5c518 !important;
+}
+
+@media (max-width: 600px) {
+  .partido-card {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .partido-acciones {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

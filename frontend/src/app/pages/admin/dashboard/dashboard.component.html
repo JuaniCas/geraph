@@ -1,0 +1,133 @@
+<div class="dashboard">
+
+  <header class="header">
+    <h1 class="logo">{{ nombreApp }}</h1>
+    <div class="header-actions">
+      <button mat-stroked-button (click)="router.navigate(['/admin/subir-fotos'])">
+        + Nuevo partido
+      </button>
+      <button mat-icon-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </header>
+
+  <main class="contenido">
+
+    <!-- SOLICITUDES -->
+    <section class="seccion">
+      <h2 class="seccion-titulo">
+        Solicitudes
+        <span class="badge-nuevo" *ngIf="solicitudesNuevas() > 0">
+          {{ solicitudesNuevas() }} nuevas
+        </span>
+      </h2>
+
+      <div *ngIf="solicitudes.length === 0" class="vacio">
+        No hay solicitudes todavía
+      </div>
+
+      <div class="solicitud-card" *ngFor="let s of solicitudes">
+        <div class="solicitud-info">
+          <span class="solicitud-nombre">{{ s.nombre_jugador }}</span>
+          <span class="solicitud-contacto">{{ s.contacto }}</span>
+          <span class="solicitud-partido" *ngIf="s.partido_id">
+            <mat-icon style="font-size:14px;width:14px;height:14px;vertical-align:middle">photo_camera</mat-icon>
+            {{ s.partido_titulo }}
+          </span>
+          <span class="solicitud-total">${{ s.total | number }}</span>
+          <span class="solicitud-fotos">Fotos: {{ s.fotos_ids }}</span>
+        </div>
+        <div class="solicitud-acciones">
+          <span class="chip" [class]="'chip-' + s.estado">{{ s.estado }}</span>
+          
+          <button mat-stroked-button *ngIf="s.estado === 'nueva'"
+            (click)="actualizarEstado(s, 'contactado')">
+            Marcar contactado
+          </button>
+
+          <button mat-stroked-button *ngIf="s.estado === 'contactado'"
+            (click)="actualizarEstado(s, 'entregada')">
+            Marcar entregada
+          </button>
+
+          <button mat-stroked-button
+            *ngIf="!s.descarga_habilitada"
+            class="btn-success"
+            (click)="habilitarDescarga(s)">
+            Habilitar descarga
+          </button>
+
+          <button mat-stroked-button
+            *ngIf="s.descarga_habilitada"
+            class="btn-warning"
+            (click)="deshabilitarDescarga(s)">
+            Deshabilitar
+          </button>
+
+          <button mat-icon-button
+            *ngIf="s.descarga_habilitada"
+            class="btn-copy"
+            (click)="copiarLinkDescarga(s.id)"
+            title="Copiar link de descarga">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+
+          <button mat-icon-button class="btn-eliminar"
+            (click)="eliminarSolicitud(s.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARTIDOS -->
+    <section class="seccion">
+      <h2 class="seccion-titulo">Partidos</h2>
+
+      <div *ngIf="cargando" class="vacio">Cargando...</div>
+
+      <div *ngIf="!cargando && partidos.length === 0" class="vacio">
+        No hay partidos todavía.
+        <button mat-flat-button class="btn-crear"
+          (click)="router.navigate(['/admin/subir-fotos'])">
+          Crear primer partido
+        </button>
+      </div>
+
+      <div class="partido-card" *ngFor="let p of partidos"
+        [class.inactivo]="!p.activo">
+        <div class="partido-info">
+          <div class="partido-titulo-row">
+            <span class="partido-titulo">{{ p.titulo }}</span>
+            <span class="chip chip-inactivo" *ngIf="!p.activo">Inactivo</span>
+          </div>
+          <span class="partido-meta">{{ p.fecha }} · {{ p.total_fotos }} fotos · ${{ p.precio_por_foto }}/foto</span>
+        </div>
+        <div class="partido-acciones">
+          <button mat-stroked-button *ngIf="p.activo"
+            (click)="irASubirFotos(p.id)">
+            + Subir fotos
+          </button>
+          <button mat-stroked-button *ngIf="p.activo"
+            class="btn-warning"
+            (click)="desactivarPartido(p.id)">
+            Desactivar
+          </button>
+          <button mat-stroked-button *ngIf="!p.activo"
+            class="btn-success"
+            (click)="activarPartido(p.id)">
+            Activar
+          </button>
+          <button mat-icon-button
+            class="btn-eliminar"
+            (click)="eliminarPartido(p.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</div>

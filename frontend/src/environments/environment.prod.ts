@@ -1,0 +1,16 @@
+export const environment = {
+  production: true,
+  apiUrl: 'https://tu-backend.railway.app',
+
+  nombreApp: 'GERAPH',
+  taglineApp: 'Las mejores fotos de tus partidos',
+  fotografoNombre: 'Gerardo Fredes',
+  fotografoContacto: '2634758493',
+  fotografoInstagram: '@gera_ph',
+
+  colorPrimario: '#1a1a2e',
+  colorAcento: '#f5c518',
+
+  developerEmail: 'jcf.software@gmail.com',
+  developerNombre: 'JC Software',
+};

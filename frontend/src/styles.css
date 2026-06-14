@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0a0f;
+  color: #f0f0f8;
+}
+
+/* Tema oscuro para Angular Material */
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: #1a1a25;
+  --mdc-outlined-text-field-label-text-color: #7070a0;
+  --mdc-outlined-text-field-input-text-color: #f0f0f8;
+}
+
+.mat-mdc-input-element {
+  color: #f0f0f8 !important;
+  caret-color: #f5c518 !important;
+}
+
+.mdc-text-field--outlined .mdc-notched-outline__leading,
+.mdc-text-field--outlined .mdc-notched-outline__notch,
+.mdc-text-field--outlined .mdc-notched-outline__trailing {
+  border-color: #2a2a3a !important;
+}
+
+.mdc-text-field--focused .mdc-notched-outline__leading,
+.mdc-text-field--focused .mdc-notched-outline__notch,
+.mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #f5c518 !important;
+}
+
+.mat-mdc-form-field-label, .mdc-floating-label {
+  color: #7070a0 !important;
+}

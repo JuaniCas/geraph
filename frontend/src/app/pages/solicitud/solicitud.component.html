@@ -1,0 +1,64 @@
+<div class="solicitud-container">
+
+  <header class="header">
+    <button mat-icon-button (click)="router.navigate(['/galeria'])">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ nombreApp }}</h1>
+  </header>
+
+  <!-- FORMULARIO -->
+  <main class="contenido" *ngIf="!enviada">
+
+    <div class="resumen">
+      <div class="resumen-fila">
+        <span>Fotos seleccionadas</span>
+        <span>{{ fotosIds.length }}</span>
+      </div>
+      <div class="resumen-fila">
+        <span>Partido</span>
+        <span>{{ partido?.titulo || '...' }}</span>
+      </div>
+      <div class="resumen-fila total">
+        <span>Total</span>
+        <span class="total-valor">${{ totalFotos() | number }}</span>
+      </div>
+    </div>
+
+    <p class="info-texto">
+      Completá tus datos y el fotógrafo te va a contactar para coordinar el pago y enviarte las fotos en alta resolución.
+    </p>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tu nombre</mat-label>
+      <input matInput [(ngModel)]="nombreJugador" placeholder="Ej: Lucas Martínez"/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>WhatsApp o Email</mat-label>
+      <input matInput [(ngModel)]="contacto" placeholder="Ej: +54 261 555-1234"/>
+    </mat-form-field>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <button mat-flat-button class="btn-enviar"
+      (click)="enviarSolicitud()"
+      [disabled]="enviando">
+      {{ enviando ? 'Enviando...' : 'Enviar solicitud' }}
+    </button>
+
+  </main>
+
+  <!-- CONFIRMACIÓN -->
+  <main class="contenido confirmacion" *ngIf="enviada">
+    <div class="confirmacion-icono">🎉</div>
+    <h2>¡Solicitud enviada!</h2>
+    <p>El fotógrafo recibió tu pedido y te va a contactar pronto para coordinar el pago y enviarte las fotos.</p>
+
+    <button mat-flat-button class="btn-enviar"
+      (click)="router.navigate(['/galeria'])">
+      Ver más fotos
+    </button>
+  </main>
+
+</div>

@@ -1,0 +1,128 @@
+<div class="galeria-container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <h1 class="logo">{{ nombreApp }}</h1>
+      <p class="tagline">{{ tagline }}</p>
+    </div>
+    <button mat-icon-button (click)="router.navigate(['/admin/login'])">
+      <mat-icon>admin_panel_settings</mat-icon>
+    </button>
+  </header>
+
+  <!-- VISTA: LISTA DE PARTIDOS -->
+  <main class="contenido" *ngIf="!partidoSeleccionado">
+
+    <div *ngIf="cargandoPartidos" class="cargando">Cargando partidos...</div>
+
+    <div *ngIf="!cargandoPartidos && partidos.length === 0" class="vacio">
+      No hay partidos disponibles todavía
+    </div>
+
+    <div class="partidos-lista" *ngIf="!cargandoPartidos && partidos.length > 0">
+      <h2 class="seccion-titulo">Partidos disponibles</h2>
+      <div class="partido-item"
+        *ngFor="let p of partidos"
+        (click)="seleccionarPartido(p)">
+        <div class="partido-item-info">
+          <span class="partido-item-titulo">{{ p.titulo }}</span>
+          <span class="partido-item-meta">{{ p.fecha }} · {{ p.total_fotos }} fotos · ${{ p.precio_por_foto }}/foto</span>
+        </div>
+        <mat-icon class="partido-item-arrow">chevron_right</mat-icon>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- VISTA: FOTOS DEL PARTIDO -->
+  <main *ngIf="partidoSeleccionado">
+
+    <!-- Subheader con nombre del partido y botón volver -->
+    <div class="partido-header">
+      <button mat-icon-button (click)="volverAPartidos()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="partido-header-info">
+        <span class="partido-header-titulo">{{ partidoSeleccionado.titulo }}</span>
+        <span class="partido-header-meta">{{ partidoSeleccionado.total_fotos }} fotos · ${{ partidoSeleccionado.precio_por_foto }}/foto</span>
+      </div>
+    </div>
+
+    <!-- Galería de fotos -->
+    <div class="fotos-grid" *ngIf="!cargandoFotos">
+      <div
+        *ngFor="let foto of fotos"
+        class="foto-item"
+        [class.seleccionada]="estaSeleccionada(foto.id)"
+        (click)="abrirFoto(foto)">
+        <img
+          [src]="foto.url_thumbnail || foto.url_marca_agua"
+          [alt]="'Foto ' + foto.id"
+          loading="lazy"/>
+        <div class="foto-overlay">
+          <mat-icon>{{ estaSeleccionada(foto.id) ? 'check_circle' : 'zoom_in' }}</mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="cargando" *ngIf="cargandoFotos">Cargando fotos...</div>
+
+    <div class="vacio" *ngIf="!cargandoFotos && fotos.length === 0">
+      Este partido no tiene fotos todavía
+    </div>
+
+  </main>
+
+  <!-- BARRA DE SOLICITUD FLOTANTE -->
+  <div class="barra-solicitud" *ngIf="fotosSeleccionadas.size > 0">
+    <div class="barra-info">
+      <span>{{ fotosSeleccionadas.size }} foto{{ fotosSeleccionadas.size > 1 ? 's' : '' }} seleccionada{{ fotosSeleccionadas.size > 1 ? 's' : '' }}</span>
+      <span class="barra-total">${{ totalSeleccionado() | number }}</span>
+    </div>
+    <button mat-flat-button class="btn-solicitar" (click)="irASolicitud()">
+      Solicitar fotos →
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-contacto">
+      <span class="footer-titulo">Contacto del fotógrafo</span>
+      <span>{{ fotografoNombre }}</span>
+      <span>{{ fotografoContacto }}</span>
+      <a class="footer-instagram"
+        [href]="'https://instagram.com/' + fotografoInstagram.replace('@', '')"
+        target="_blank">
+        {{ fotografoInstagram }}
+      </a>
+    </div>
+    <div class="footer-dev">
+      Desarrollado por
+      <a [href]="'mailto:' + developerEmail">{{ developerNombre }}</a>
+    </div>
+  </footer>
+
+  <!-- MODAL DE FOTO AMPLIADA -->
+   <div class="modal-overlay" *ngIf="fotoAmpliada" (click)="cerrarFoto()">
+    <div class="modal-contenido" (click)="$event.stopPropagation()">
+      <button class="modal-cerrar" (click)="cerrarFoto()">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <img class="modal-img"
+        [src]="fotoAmpliada.url_marca_agua"
+        [alt]="'Foto ' + fotoAmpliada.id"/>
+      
+      <div class="modal-acciones">
+        <button mat-flat-button
+          class="btn-agregar"
+          [class.seleccionada]="estaSeleccionada(fotoAmpliada.id)"
+          (click)="toggleFotoDesdeModal(fotoAmpliada.id)">
+          <mat-icon>{{ estaSeleccionada(fotoAmpliada.id) ? 'check_circle' : 'add_shopping_cart' }}</mat-icon>
+          {{ estaSeleccionada(fotoAmpliada.id) ? 'Quitar del carrito' : 'Agregar al carrito' }}
+        </button>
+      </div>
+      
+   </div>
+</div>
