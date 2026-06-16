@@ -1,5 +1,6 @@
+cat > ~/geraph-app/frontend/vercel.json << 'EOF'
 {
-  "outputDirectory": "dist/geraph-frontend",
+  "outputDirectory": "dist/geraph-frontend/browser",
   "rewrites": [
     {
       "source": "/(.*)",
@@ -7,3 +8,4 @@
     }
   ]
 }
+EOF
