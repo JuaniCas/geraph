@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://tu-backend.railway.app',
+  apiUrl: 'https://https://geraph-production.up.railway.app',
 
   nombreApp: 'GERAPH',
   taglineApp: 'Las mejores fotos de tus partidos',
