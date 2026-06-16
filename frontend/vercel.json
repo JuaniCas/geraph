@@ -1,4 +1,4 @@
-cat > ~/geraph-app/frontend/vercel.json << 'EOF'
+
 {
   "outputDirectory": "dist/geraph-frontend/browser",
   "rewrites": [
@@ -8,4 +8,3 @@ cat > ~/geraph-app/frontend/vercel.json << 'EOF'
     }
   ]
 }
-EOF
