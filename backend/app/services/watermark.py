@@ -67,7 +67,7 @@ def _generar_thumbnail(imagen: Image.Image) -> bytes:
     capa = Image.new("RGBA", thumb.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(capa)
 
-    tamanio_fuente = max(40, ancho // 8)
+    tamanio_fuente = max(20, ancho // 10)
 
     try:
         fuente = _obtener_fuente(tamanio_fuente)
@@ -115,7 +115,7 @@ def _generar_preview(imagen: Image.Image) -> bytes:
     capa = Image.new("RGBA", preview.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(capa)
 
-    tamanio_fuente = max(200, ancho // 5)
+    tamanio_fuente = max(60, ancho // 10)
 
     try:
         fuente = _obtener_fuente(tamanio_fuente)
