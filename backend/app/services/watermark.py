@@ -1,7 +1,21 @@
 from PIL import Image, ImageDraw, ImageFont
 import io
 import math
+import urllib.request
+import os
 
+def _obtener_fuente(tamanio: int):
+    """Descarga y cachea la fuente si no está disponible en el sistema."""
+    fuente_path = "/tmp/DejaVuSans-Bold.ttf"
+    
+    if not os.path.exists(fuente_path):
+        url = "https://github.com/dejavu-fonts/dejavu-fonts/raw/master/ttf/DejaVuSans-Bold.ttf"
+        urllib.request.urlretrieve(url, fuente_path)
+    
+    try:
+        return ImageFont.truetype(fuente_path, tamanio)
+    except Exception:
+        return ImageFont.load_default()
 
 def procesar_imagen(imagen_bytes: bytes) -> tuple[bytes, bytes]:
     """
@@ -62,10 +76,7 @@ def _generar_thumbnail(imagen: Image.Image) -> bytes:
     tamanio_fuente = max(40, ancho // 8)
 
     try:
-        fuente = ImageFont.truetype(
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-            tamanio_fuente
-        )
+        fuente = _obtener_fuente(tamanio_fuente)
     except OSError:
         fuente = ImageFont.load_default()
 
@@ -113,10 +124,7 @@ def _generar_preview(imagen: Image.Image) -> bytes:
     tamanio_fuente = max(200, ancho // 5)
 
     try:
-        fuente = ImageFont.truetype(
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-            tamanio_fuente
-        )
+        fuente = _obtener_fuente(tamanio_fuente)
     except OSError:
         fuente = ImageFont.load_default()
 
