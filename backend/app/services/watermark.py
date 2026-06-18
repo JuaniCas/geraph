@@ -5,13 +5,7 @@ import urllib.request
 import os
 
 def _obtener_fuente(tamanio: int):
-    """Descarga y cachea la fuente si no está disponible en el sistema."""
-    fuente_path = "/tmp/DejaVuSans-Bold.ttf"
-    
-    if not os.path.exists(fuente_path):
-        url = "https://github.com/dejavu-fonts/dejavu-fonts/raw/master/ttf/DejaVuSans-Bold.ttf"
-        urllib.request.urlretrieve(url, fuente_path)
-    
+    fuente_path = os.path.join(os.path.dirname(__file__), "DejaVuSans-Bold.ttf")
     try:
         return ImageFont.truetype(fuente_path, tamanio)
     except Exception:
