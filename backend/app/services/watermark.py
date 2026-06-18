@@ -59,7 +59,7 @@ def _generar_thumbnail(imagen: Image.Image) -> bytes:
     capa = Image.new("RGBA", thumb.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(capa)
 
-    tamanio_fuente = max(16, ancho // 18)
+    tamanio_fuente = max(24, ancho // 12)
 
     try:
         fuente = ImageFont.truetype(
@@ -110,7 +110,7 @@ def _generar_preview(imagen: Image.Image) -> bytes:
     capa = Image.new("RGBA", preview.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(capa)
 
-    tamanio_fuente = max(30, ancho // 18)
+    tamanio_fuente = max(50, ancho // 12)
 
     try:
         fuente = ImageFont.truetype(

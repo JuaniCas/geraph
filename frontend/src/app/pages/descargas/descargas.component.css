@@ -121,3 +121,15 @@
   text-align: center;
   line-height: 1.6;
 }
+
+.btn-volver-galeria {
+  width: 100%;
+  color: #7070a0 !important;
+  border-color: #2a2a3a !important;
+  margin-top: 8px;
+}
+
+.btn-volver-galeria:hover {
+  color: #f0f0f8 !important;
+  border-color: #7070a0 !important;
+}

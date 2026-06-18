@@ -195,3 +195,22 @@
     justify-content: flex-end;
   }
 }
+
+@media (max-width: 600px) {
+  .solicitud-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .solicitud-acciones {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+
+  .solicitud-acciones button {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}

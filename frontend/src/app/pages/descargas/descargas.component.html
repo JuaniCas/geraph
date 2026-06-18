@@ -50,7 +50,7 @@
       <div class="foto-item" *ngFor="let link of datos.links; let i = index">
         <div class="foto-numero">Foto {{ i + 1 }}</div>
         <button mat-stroked-button class="btn-descargar"
-          (click)="descargarFoto(link)">
+          (click)="descargarFoto(link, true)">
           <mat-icon>download</mat-icon>
           Descargar
         </button>
@@ -61,5 +61,10 @@
       Guardá las fotos en tu dispositivo. El link puede dejar de funcionar si el fotógrafo borra el partido.
     </p>
   </main>
+
+  <button mat-stroked-button class="btn-volver-galeria"
+    (click)="router.navigate(['/galeria'])">
+    ← Volver a la galería
+  </button>
 
 </div>

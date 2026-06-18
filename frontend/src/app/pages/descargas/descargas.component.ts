@@ -65,7 +65,7 @@ export class DescargasComponent implements OnInit {
     });
   }
 
-  descargarFoto(link: LinkDescarga) {
+  descargarFoto(link: LinkDescarga, mostrarNotificacion: boolean = false) {
     fetch(link.url)
       .then(response => response.blob())
       .then(blob => {
@@ -77,6 +77,9 @@ export class DescargasComponent implements OnInit {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
+        if (mostrarNotificacion) {
+          this.mostrarMensaje('Foto descargada');
+        }
       })
       .catch(() => {
         // Si falla el blob, abrimos en nueva pestaña como fallback
@@ -84,10 +87,33 @@ export class DescargasComponent implements OnInit {
       });
   }
 
+  mostrarMensaje(texto: string) {
+    const div = document.createElement('div');
+    div.textContent = texto;
+    div.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #22c55e;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 9999;
+      animation: fadeIn .2s ease;
+    `;
+    document.body.appendChild(div);
+    setTimeout(() => document.body.removeChild(div), 2500);
+  }
+
   descargarTodas() {
     if (!this.datos) return;
     this.datos.links.forEach((link, index) => {
       setTimeout(() => this.descargarFoto(link), index * 500);
     });
+    setTimeout(() => this.mostrarMensaje(`${this.datos!.total_fotos} fotos descargadas`), 
+      this.datos.links.length * 500 + 200);
   }
 }
