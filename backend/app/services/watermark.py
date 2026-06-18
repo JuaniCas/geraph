@@ -59,7 +59,7 @@ def _generar_thumbnail(imagen: Image.Image) -> bytes:
     capa = Image.new("RGBA", thumb.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(capa)
 
-    tamanio_fuente = max(24, ancho // 12)
+    tamanio_fuente = max(40, ancho // 8)
 
     try:
         fuente = ImageFont.truetype(
@@ -74,8 +74,8 @@ def _generar_thumbnail(imagen: Image.Image) -> bytes:
     ancho_texto = bbox[2] - bbox[0]
     alto_texto = bbox[3] - bbox[1]
 
-    espaciado_x = ancho_texto + 40
-    espaciado_y = alto_texto + 30
+    espaciado_x = ancho_texto + 20
+    espaciado_y = alto_texto + 15
     angulo_rad = math.radians(30)
 
     for x in range(-ancho, ancho * 2, espaciado_x):
@@ -110,7 +110,7 @@ def _generar_preview(imagen: Image.Image) -> bytes:
     capa = Image.new("RGBA", preview.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(capa)
 
-    tamanio_fuente = max(50, ancho // 12)
+    tamanio_fuente = max(80, ancho // 8)
 
     try:
         fuente = ImageFont.truetype(
@@ -125,8 +125,8 @@ def _generar_preview(imagen: Image.Image) -> bytes:
     ancho_texto = bbox[2] - bbox[0]
     alto_texto = bbox[3] - bbox[1]
 
-    espaciado_x = ancho_texto + 80
-    espaciado_y = alto_texto + 60
+    espaciado_x = ancho_texto + 40
+    espaciado_y = alto_texto + 30
     angulo_rad = math.radians(30)
 
     for x in range(-ancho, ancho * 2, espaciado_x):
