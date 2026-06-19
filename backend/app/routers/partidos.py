@@ -7,15 +7,11 @@ from app.core.config import get_settings
 from app.models.models import Partido, Foto, Usuario
 from app.schemas.schemas import PartidoCrear, PartidoResponse, FotoResponse
 from app.services.watermark import procesar_imagen
-from app.services.storage import subir_archivo
+from app.services.storage import subir_archivo, generar_url_firmada, eliminar_archivo
 import uuid
-from supabase import create_client
 
 router = APIRouter(prefix="/partidos", tags=["Partidos y Fotos"])
 settings = get_settings()
-
-def get_supabase():
-    return create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
 
 # ─── ENDPOINTS PÚBLICOS ───────────────────────────────────────────────────────
 
@@ -172,23 +168,22 @@ def eliminar_partido_definitivo(
 ):
     """
     Elimina el partido y todas sus fotos definitivamente.
-    También borra las imágenes de Supabase Storage.
     """
     partido = db.query(Partido).filter(Partido.id == partido_id).first()
     if not partido:
         raise HTTPException(status_code=404, detail="Partido no encontrado")
 
-    # Borramos las imágenes de Supabase
-    supabase = get_supabase()
+    # Borramos las imágenes de Cloudflare R2
     for foto in partido.fotos:
         try:
-            # Borramos preview y thumbnail
-            ruta_preview = foto.url_marca_agua.split('/publicas/')[-1]
-            supabase.storage.from_(settings.SUPABASE_BUCKET).remove(
-                [f"publicas/{ruta_preview}"]
-            )
+            ruta_preview = foto.url_marca_agua.split(f"{settings.R2_PUBLIC_URL}/")[-1]
+            eliminar_archivo(ruta_preview)
+            if foto.url_thumbnail:
+                ruta_thumb = foto.url_thumbnail.split(f"{settings.R2_PUBLIC_URL}/")[-1]
+                eliminar_archivo(ruta_thumb)
+            eliminar_archivo(foto.url_original)
         except Exception:
-            pass  # Si falla el borrado en Supabase continuamos igual
+            pass
 
     from app.models.models import Solicitud
     db.query(Solicitud).filter(Solicitud.partido_id == partido_id).delete()

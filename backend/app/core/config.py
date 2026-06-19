@@ -11,10 +11,12 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
-    # Supabase
-    SUPABASE_URL: str
-    SUPABASE_KEY: str
-    SUPABASE_BUCKET: str = "geraph-fotos"
+    # Cloudflare R2
+    R2_ENDPOINT: str
+    R2_ACCESS_KEY: str
+    R2_SECRET_KEY: str
+    R2_BUCKET: str = "geraph-fotos"
+    R2_PUBLIC_URL: str
 
     # Admin inicial
     ADMIN_EMAIL: str

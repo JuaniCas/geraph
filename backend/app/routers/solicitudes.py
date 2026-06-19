@@ -5,8 +5,7 @@ from app.core.database import get_db
 from app.core.security import get_usuario_actual
 from app.models.models import Solicitud, Foto, Partido, Usuario
 from app.schemas.schemas import SolicitudCrear, SolicitudResponse, SolicitudActualizarEstado
-from supabase import create_client
-from app.core.config import get_settings
+from app.services.storage import generar_url_firmada
 
 router = APIRouter(prefix="/solicitudes", tags=["Solicitudes"])
 
@@ -164,20 +163,13 @@ def obtener_links_descarga(
     ids = [int(i) for i in solicitud.fotos_ids.split(",")]
     fotos = db.query(Foto).filter(Foto.id.in_(ids)).all()
 
-    settings = get_settings()
-    supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
-
-    # Generamos URLs firmadas para cada foto original
     links = []
     for foto in fotos:
         try:
-            resultado = supabase.storage.from_(settings.SUPABASE_BUCKET).create_signed_url(
-                path=foto.url_original,
-                expires_in=604800  # 7 días en segundos
-            )
+            url = generar_url_firmada(foto.url_original, expira_en=604800)
             links.append({
                 "foto_id": foto.id,
-                "url": resultado["signedURL"],
+                "url": url,
                 "nombre": foto.nombre_archivo,
             })
         except Exception:
