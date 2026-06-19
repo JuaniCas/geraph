@@ -41,6 +41,7 @@ class Foto(Base):
     url_thumbnail = Column(String, nullable=False)
     url_original = Column(String, nullable=False)
     partido_id = Column(Integer, ForeignKey("partidos.id"), nullable=False)
+    tamanio_bytes = Column(Integer, nullable=True)
     creado_en = Column(DateTime(timezone=True), server_default=func.now())
 
     partido = relationship("Partido", back_populates="fotos")

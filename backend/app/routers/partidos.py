@@ -67,6 +67,22 @@ def listar_todos_partidos(
         for p in partidos
     ]
 
+@router.get("/storage/uso")
+def uso_storage(
+    db: Session = Depends(get_db),
+    usuario_actual: Usuario = Depends(get_usuario_actual)
+):
+    from sqlalchemy import func
+    total = db.query(func.sum(Foto.tamanio_bytes)).scalar() or 0
+    limite_bytes = 10 * 1024 * 1024 * 1024  # 10GB
+
+    return {
+        "usado_bytes": total,
+        "usado_gb": round(total / (1024**3), 2),
+        "limite_gb": 10,
+        "porcentaje": round((total / limite_bytes) * 100, 1) if limite_bytes > 0 else 0,
+    }
+
 @router.post("/", response_model=PartidoResponse, status_code=status.HTTP_201_CREATED)
 def crear_partido(
     datos: PartidoCrear,
@@ -127,6 +143,7 @@ async def subir_foto(
         url_thumbnail=url_thumbnail,
         url_original=ruta_original,
         partido_id=partido_id,
+        tamanio_bytes=len(bytes_originales)
     )
     db.add(foto)
     db.commit()
@@ -159,6 +176,7 @@ def desactivar_partido(
         raise HTTPException(status_code=404, detail="Partido no encontrado")
     partido.activo = False
     db.commit()
+
 
 @router.delete("/{partido_id}/definitivo", status_code=status.HTTP_204_NO_CONTENT)
 def eliminar_partido_definitivo(
@@ -194,6 +212,3 @@ def eliminar_partido_definitivo(
     # Borramos el partido
     db.delete(partido)
     db.commit()
-
-
-
