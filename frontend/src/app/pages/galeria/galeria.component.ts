@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PartidoService, Partido, Foto } from '../../core/services/partido.service';
 import { environment } from '../../../environments/environment';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-galeria',
@@ -112,6 +113,7 @@ export class GaleriaComponent implements OnInit {
 
   abrirFoto(foto: Foto) {
     this.fotoAmpliada = foto;
+    history.pushState(null, '', location.href);
     this.cdr.detectChanges();
   }
 
@@ -123,5 +125,14 @@ export class GaleriaComponent implements OnInit {
   toggleFotoDesdeModal(fotoId: number) {
     this.toggleFoto(fotoId);
     this.cdr.detectChanges();
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: PopStateEvent) {
+    if (this.fotoAmpliada) {
+      event.preventDefault();
+      this.cerrarFoto();
+      history.pushState(null, '', location.href);
+    }
   }
 }
