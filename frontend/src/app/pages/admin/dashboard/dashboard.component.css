@@ -214,3 +214,33 @@
     padding: 4px 8px;
   }
 }
+
+.storage-indicador {
+  background: #1a1a25;
+  border: 1px solid #2a2a3a;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 16px 20px 0;
+}
+
+.storage-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #7070a0;
+  margin-bottom: 8px;
+}
+
+.storage-barra {
+  height: 8px;
+  background: #0a0a0f;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.storage-barra-fill {
+  height: 100%;
+  background: #f5c518;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}

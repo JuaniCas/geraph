@@ -20,6 +20,13 @@ export interface Foto {
   partido_id: number;
 }
 
+export interface UsoStorage {
+  usado_bytes: number;
+  usado_gb: number;
+  limite_gb: number;
+  porcentaje: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class PartidoService {
 
@@ -61,5 +68,9 @@ export class PartidoService {
 
   eliminarDefinitivo(partidoId: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/partidos/${partidoId}/definitivo`);
+  }
+
+  obtenerUsoStorage(): Observable<UsoStorage> {
+    return this.http.get<UsoStorage>(`${environment.apiUrl}/partidos/storage/uso`);
   }
 }

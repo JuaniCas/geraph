@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { AuthService } from '../../../core/services/auth.service';
-import { PartidoService, Partido } from '../../../core/services/partido.service';
+import { PartidoService, Partido, UsoStorage} from '../../../core/services/partido.service';
 import { SolicitudService, Solicitud } from '../../../core/services/solicitud.service';
 import { environment } from '../../../../environments/environment';
 
@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   nombreApp = environment.nombreApp;
   partidos: Partido[] = [];
   solicitudes: Solicitud[] = [];
+  usoStorage: UsoStorage | null = null;
   cargando = true;
 
   constructor(
@@ -59,6 +60,13 @@ export class DashboardComponent implements OnInit {
     this.solicitudService.listarSolicitudes().subscribe({
       next: (solicitudes) => {
         this.solicitudes = solicitudes;
+        this.cdr.detectChanges();
+      }
+    });
+
+    this.partidoService.obtenerUsoStorage().subscribe({
+      next: (uso) => {
+        this.usoStorage = uso;
         this.cdr.detectChanges();
       }
     });
