@@ -104,16 +104,31 @@
   </footer>
 
   <!-- MODAL DE FOTO AMPLIADA -->
-   <div class="modal-overlay" *ngIf="fotoAmpliada" (click)="cerrarFoto()">
-    <div class="modal-contenido" (click)="$event.stopPropagation()">
+  <div class="modal-overlay" *ngIf="fotoAmpliada" (click)="cerrarFoto()">
+    <div class="modal-contenido" (click)="$event.stopPropagation()"
+      (touchstart)="onTouchStart($event)"
+      (touchend)="onTouchEnd($event)">
+
       <button class="modal-cerrar" (click)="cerrarFoto()">
         <mat-icon>close</mat-icon>
+      </button>
+
+      <button class="modal-flecha modal-flecha-izq" 
+        *ngIf="fotos.findIndex(f => f.id === fotoAmpliada!.id) > 0"
+        (click)="fotoAnterior(); $event.stopPropagation()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      <button class="modal-flecha modal-flecha-der"
+        *ngIf="fotos.findIndex(f => f.id === fotoAmpliada!.id) < fotos.length - 1"
+        (click)="fotoSiguiente(); $event.stopPropagation()">
+        <mat-icon>chevron_right</mat-icon>
       </button>
 
       <img class="modal-img"
         [src]="fotoAmpliada.url_marca_agua"
         [alt]="'Foto ' + fotoAmpliada.id"/>
-      
+
       <div class="modal-acciones">
         <button mat-flat-button
           class="btn-agregar"
@@ -123,6 +138,7 @@
           {{ estaSeleccionada(fotoAmpliada.id) ? 'Quitar del carrito' : 'Agregar al carrito' }}
         </button>
       </div>
-      
-   </div>
+
+    </div>
+  </div>
 </div>

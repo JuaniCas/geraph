@@ -369,3 +369,32 @@
   background: #22c55e !important;
   color: #fff !important;
 }
+
+.modal-flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,.5);
+  border: none;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.modal-flecha:hover {
+  background: rgba(245,197,24,.3);
+}
+
+.modal-flecha-izq { left: -60px; }
+.modal-flecha-der { right: -60px; }
+
+@media (max-width: 768px) {
+  .modal-flecha-izq { left: 8px; }
+  .modal-flecha-der { right: 8px; }
+}

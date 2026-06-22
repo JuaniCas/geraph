@@ -34,6 +34,8 @@ export class GaleriaComponent implements OnInit {
   cargandoPartidos = true;
   cargandoFotos = false;
   fotoAmpliada: Foto | null = null;
+  touchStartX = 0;
+  touchEndX = 0;
 
   constructor(
     private partidoService: PartidoService,
@@ -126,6 +128,47 @@ export class GaleriaComponent implements OnInit {
     this.toggleFoto(fotoId);
     this.cdr.detectChanges();
   }
+
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.changedTouches[0].screenX;
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    this.touchEndX = event.changedTouches[0].screenX;
+    this.detectarSwipe();
+  }
+
+  detectarSwipe() {
+    const distancia = this.touchEndX - this.touchStartX;
+    const umbralMinimo = 50;
+
+    if (Math.abs(distancia) < umbralMinimo) return;
+
+    if (distancia > 0) {
+      this.fotoAnterior();
+    } else {
+      this.fotoSiguiente();
+    }
+  }
+
+  fotoSiguiente() {
+    if (!this.fotoAmpliada) return;
+    const indiceActual = this.fotos.findIndex(f => f.id === this.fotoAmpliada!.id);
+    if (indiceActual < this.fotos.length - 1) {
+      this.fotoAmpliada = this.fotos[indiceActual + 1];
+      this.cdr.detectChanges();
+    }
+  }
+
+  fotoAnterior() {
+    if (!this.fotoAmpliada) return;
+    const indiceActual = this.fotos.findIndex(f => f.id === this.fotoAmpliada!.id);
+    if (indiceActual > 0) {
+      this.fotoAmpliada = this.fotos[indiceActual - 1];
+      this.cdr.detectChanges();
+    }
+  }
+  
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: PopStateEvent) {
