@@ -15,12 +15,22 @@
   <div class="storage-indicador" *ngIf="usoStorage">
     <div class="storage-info">
       <span>Almacenamiento usado</span>
-      <span>{{ usoStorage.usado_gb }} GB / {{ usoStorage.limite_gb }} GB</span>
+      <span [class.texto-alerta]="usoStorage.porcentaje >= 80">
+        {{ usoStorage.usado_gb }} GB / {{ usoStorage.limite_gb }} GB
+      </span>
     </div>
     <div class="storage-barra">
-      <div class="storage-barra-fill" [style.width.%]="usoStorage.porcentaje"></div>
+      <div class="storage-barra-fill"
+        [class.alerta]="usoStorage.porcentaje >= 80"
+        [style.width.%]="usoStorage.porcentaje">
+      </div>
     </div>
+    <p class="storage-mensaje" *ngIf="usoStorage.porcentaje >= 80">
+      <mat-icon style="font-size:16px;width:16px;height:16px;vertical-align:middle">warning</mat-icon>
+      Te estás quedando sin espacio. Considerá borrar partidos antiguos.
+    </p>
   </div>
+</div>
 
   <main class="contenido">
 
