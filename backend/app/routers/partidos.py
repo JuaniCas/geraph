@@ -191,17 +191,24 @@ def eliminar_partido_definitivo(
     if not partido:
         raise HTTPException(status_code=404, detail="Partido no encontrado")
 
-    # Borramos las imágenes de Cloudflare R2
     for foto in partido.fotos:
         try:
             ruta_preview = foto.url_marca_agua.split(f"{settings.R2_PUBLIC_URL}/")[-1]
             eliminar_archivo(ruta_preview)
+        except Exception as e:
+            print(f"Error borrando preview de foto {foto.id}: {e}")
+
+        try:
             if foto.url_thumbnail:
                 ruta_thumb = foto.url_thumbnail.split(f"{settings.R2_PUBLIC_URL}/")[-1]
                 eliminar_archivo(ruta_thumb)
+        except Exception as e:
+            print(f"Error borrando thumbnail de foto {foto.id}: {e}")
+
+        try:
             eliminar_archivo(foto.url_original)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Error borrando original de foto {foto.id}: {e}")
 
     from app.models.models import Solicitud
     db.query(Solicitud).filter(Solicitud.partido_id == partido_id).delete()
