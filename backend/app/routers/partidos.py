@@ -165,6 +165,37 @@ def activar_partido(
     db.refresh(partido)
     return partido
 
+@router.patch("/{partido_id}", response_model=PartidoResponse)
+def editar_partido(
+    partido_id: int,
+    datos: PartidoCrear,
+    db: Session = Depends(get_db),
+    usuario_actual: Usuario = Depends(get_usuario_actual)
+):
+    """Edita el título, fecha, descripción y precio de un partido existente."""
+    partido = db.query(Partido).filter(Partido.id == partido_id).first()
+    if not partido:
+        raise HTTPException(status_code=404, detail="Partido no encontrado")
+
+    partido.titulo = datos.titulo
+    partido.fecha = datos.fecha
+    partido.descripcion = datos.descripcion
+    partido.precio_por_foto = datos.precio_por_foto
+
+    db.commit()
+    db.refresh(partido)
+
+    return PartidoResponse(
+        id=partido.id,
+        titulo=partido.titulo,
+        fecha=partido.fecha,
+        descripcion=partido.descripcion,
+        precio_por_foto=partido.precio_por_foto,
+        activo=partido.activo,
+        total_fotos=len(partido.fotos),
+        creado_en=partido.creado_en,
+    )
+
 @router.delete("/{partido_id}", status_code=status.HTTP_204_NO_CONTENT)
 def desactivar_partido(
     partido_id: int,

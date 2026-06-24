@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,17 +11,22 @@ import { AuthService } from '../../../core/services/auth.service';
 import { PartidoService, Partido, UsoStorage} from '../../../core/services/partido.service';
 import { SolicitudService, Solicitud } from '../../../core/services/solicitud.service';
 import { environment } from '../../../../environments/environment';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
     MatBadgeModule,
     MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -31,6 +37,11 @@ export class DashboardComponent implements OnInit {
   solicitudes: Solicitud[] = [];
   usoStorage: UsoStorage | null = null;
   cargando = true;
+  editandoPartido: Partido | null = null;
+  tituloEdit = '';
+  fechaEdit = '';
+  precioEdit = 0;
+  guardandoEdicion = false;
 
   constructor(
     private authService: AuthService,
@@ -173,5 +184,46 @@ export class DashboardComponent implements OnInit {
     alert('Link copiado al portapapeles');
   }
 
-  
+  abrirEdicion(partido: Partido) {
+    this.editandoPartido = partido;
+    this.tituloEdit = partido.titulo;
+    this.fechaEdit = partido.fecha;
+    this.precioEdit = partido.precio_por_foto;
+    this.cdr.detectChanges();
+  }
+
+  cerrarEdicion() {
+    this.editandoPartido = null;
+    this.cdr.detectChanges();
+  }
+
+  guardarEdicion() {
+    if (!this.editandoPartido || !this.tituloEdit || !this.fechaEdit) return;
+    if (this.guardandoEdicion) return;
+
+    this.guardandoEdicion = true;
+
+    this.partidoService.editarPartido(this.editandoPartido.id, {
+      titulo: this.tituloEdit,
+      fecha: this.fechaEdit,
+      precio_por_foto: this.precioEdit,
+    }).subscribe({
+      next: (actualizado) => {
+        const idx = this.partidos.findIndex(p => p.id === actualizado.id);
+        if (idx !== -1) {
+          this.partidos[idx] = actualizado;
+        }
+        this.guardandoEdicion = false;
+        this.editandoPartido = null;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        alert('Error al guardar los cambios');
+        this.guardandoEdicion = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+
 }

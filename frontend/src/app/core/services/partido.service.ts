@@ -73,4 +73,8 @@ export class PartidoService {
   obtenerUsoStorage(): Observable<UsoStorage> {
     return this.http.get<UsoStorage>(`${environment.apiUrl}/partidos/storage/uso`);
   }
+
+  editarPartido(partidoId: number, datos: Partial<Partido>): Observable<Partido> {
+    return this.http.patch<Partido>(`${environment.apiUrl}/partidos/${partidoId}`, datos);
+  }
 }

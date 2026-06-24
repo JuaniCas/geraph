@@ -259,3 +259,49 @@
   color: #e8433a;
   margin: 8px 0 0;
 }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.modal-edicion {
+  background: #1a1a25;
+  border: 1px solid #2a2a3a;
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modal-edicion-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.full-width { width: 100%; }
+
+.modal-edicion-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-guardar {
+  background: #f5c518 !important;
+  color: #0a0a0f !important;
+  font-weight: 700;
+}
+
+.btn-guardar:disabled { opacity: 0.6; }

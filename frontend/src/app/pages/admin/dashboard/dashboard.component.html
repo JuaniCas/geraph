@@ -124,29 +124,73 @@
           <span class="partido-meta">{{ p.fecha }} · {{ p.total_fotos }} fotos · ${{ p.precio_por_foto }}/foto</span>
         </div>
         <div class="partido-acciones">
+
           <button mat-stroked-button *ngIf="p.activo"
             (click)="irASubirFotos(p.id)">
             + Subir fotos
           </button>
+
+          <button mat-stroked-button
+            (click)="abrirEdicion(p)">
+            Editar
+          </button>
+
           <button mat-stroked-button *ngIf="p.activo"
             class="btn-warning"
             (click)="desactivarPartido(p.id)">
             Desactivar
           </button>
+
           <button mat-stroked-button *ngIf="!p.activo"
             class="btn-success"
             (click)="activarPartido(p.id)">
             Activar
           </button>
+
           <button mat-icon-button
             class="btn-eliminar"
             (click)="eliminarPartido(p.id)">
             <mat-icon>delete</mat-icon>
           </button>
+
         </div>
       </div>
     </section>
 
   </main>
 
+  <!-- MODAL EDITAR PARTIDO -->
+  <div class="modal-overlay" *ngIf="editandoPartido" (click)="cerrarEdicion()">
+    <div class="modal-edicion" (click)="$event.stopPropagation()">
+
+      <h2 class="modal-edicion-titulo">Editar partido</h2>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título del partido</mat-label>
+        <input matInput [(ngModel)]="tituloEdit"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Fecha</mat-label>
+        <input matInput type="date" [(ngModel)]="fechaEdit"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Precio por foto ($)</mat-label>
+        <input matInput type="number" [(ngModel)]="precioEdit"/>
+      </mat-form-field>
+
+      <div class="modal-edicion-acciones">
+        <button mat-stroked-button (click)="cerrarEdicion()">
+          Cancelar
+        </button>
+        <button mat-flat-button class="btn-guardar"
+          (click)="guardarEdicion()"
+          [disabled]="!tituloEdit || !fechaEdit || guardandoEdicion">
+          {{ guardandoEdicion ? 'Guardando...' : 'Guardar cambios' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
 </div>
