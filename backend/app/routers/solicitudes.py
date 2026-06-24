@@ -6,6 +6,7 @@ from app.core.security import get_usuario_actual
 from app.models.models import Solicitud, Foto, Partido, Usuario
 from app.schemas.schemas import SolicitudCrear, SolicitudResponse, SolicitudActualizarEstado
 from app.services.storage import generar_url_firmada
+from app.services.telegram import enviar_notificacion_telegram
 
 router = APIRouter(prefix="/solicitudes", tags=["Solicitudes"])
 
@@ -30,9 +31,22 @@ def crear_solicitud(datos: SolicitudCrear, db: Session = Depends(get_db)):
         total=total,
         partido_id=partido.id,
     )
+
     db.add(solicitud)
     db.commit()
     db.refresh(solicitud)
+
+    mensaje = (
+        f"📸 <b>Nueva solicitud de fotos</b>\n\n"
+        f"Jugador: {datos.nombre_jugador}\n"
+        f"Contacto: {datos.contacto}\n"
+        f"Partido: {partido.titulo}\n"
+        f"Fotos: {len(datos.fotos_ids)}\n"
+        f"Total: ${total}"
+    )
+
+    enviar_notificacion_telegram(mensaje)
+
     return SolicitudResponse(
         id=solicitud.id,
         nombre_jugador=solicitud.nombre_jugador,
