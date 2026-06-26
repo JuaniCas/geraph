@@ -57,9 +57,16 @@
           <span class="solicitud-total">${{ s.total | number }}</span>
           <span class="solicitud-fotos">Fotos: {{ s.fotos_ids }}</span>
         </div>
+
         <div class="solicitud-acciones">
           <span class="chip" [class]="'chip-' + s.estado">{{ s.estado }}</span>
           
+          <button mat-icon-button class="btn-whatsapp"
+            (click)="abrirWhatsApp(s)"
+            title="Contactar por WhatsApp">
+            <mat-icon>chat</mat-icon>
+          </button>
+
           <button mat-stroked-button *ngIf="s.estado === 'nueva'"
             (click)="actualizarEstado(s, 'contactado')">
             Marcar contactado

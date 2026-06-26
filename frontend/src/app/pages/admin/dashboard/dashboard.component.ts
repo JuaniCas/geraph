@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit {
   fechaEdit = '';
   precioEdit = 0;
   guardandoEdicion = false;
+  aliasMP = environment.fotografoAlias;
 
   constructor(
     private authService: AuthService,
@@ -225,5 +226,16 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  abrirWhatsApp(solicitud: Solicitud) {
+    const numero = solicitud.contacto.replace(/\D/g, ''); // dejamos solo números
+    const mensaje = `Hola ${solicitud.nombre_jugador}! Soy el fotógrafo` +
+      `${solicitud.partido_titulo ? ' de ' + solicitud.partido_titulo : ''}. ` +
+      `Tu pedido de ${solicitud.fotos_ids.split(',').length} foto(s) está listo. ` +
+      `Total: $${solicitud.total}. ` +
+      `Podés transferir al alias: ${this.aliasMP}`;
+
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+  }
 
 }
