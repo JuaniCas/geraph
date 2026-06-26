@@ -6,7 +6,7 @@ export const environment = {
   taglineApp: 'Las mejores fotos de tus partidos',
   fotografoNombre: 'Gerardo Fredes',
   fotografoContacto: '2634758493',
-  fotografoInstagram: '@gera_ph',
+  fotografoInstagram: '@gera__ph',
 
   colorPrimario: '#1a1a2e',
   colorAcento: '#f5c518',
