@@ -227,7 +227,19 @@ export class DashboardComponent implements OnInit {
   }
 
   abrirWhatsApp(solicitud: Solicitud) {
-    const numero = solicitud.contacto.replace(/\D/g, ''); // dejamos solo números
+    let numero = solicitud.contacto.replace(/\D/g, ''); // dejamos solo números
+  
+    // Si no empieza con 549 (código Argentina + 9), lo agregamos
+    if (!numero.startsWith('549')) {
+      // Si empieza con 54 pero sin el 9, lo insertamos
+      if (numero.startsWith('54')) {
+        numero = '549' + numero.slice(2);
+      } else {
+        // Si no tiene código de país, asumimos que es argentino
+        numero = '549' + numero;
+      }
+    }
+
     const mensaje = `Hola ${solicitud.nombre_jugador}! Soy el fotógrafo` +
       `${solicitud.partido_titulo ? ' de ' + solicitud.partido_titulo : ''}. ` +
       `Tu pedido de ${solicitud.fotos_ids.split(',').length} foto(s) está listo. ` +
