@@ -116,4 +116,10 @@ export class DescargasComponent implements OnInit {
     setTimeout(() => this.mostrarMensaje(`${this.datos!.total_fotos} fotos descargadas`), 
       this.datos.links.length * 500 + 200);
   }
+
+  verFoto(link: LinkDescarga) {
+    window.open(link.url, '_blank');
+  }
+
+  
 }

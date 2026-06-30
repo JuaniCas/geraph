@@ -181,7 +181,7 @@ export class DashboardComponent implements OnInit {
 
   copiarLinkDescarga(solicitudId: number) {
     const url = `${window.location.origin}/descargas/${solicitudId}`;
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(url + '\n gracias por tu compra!');
     alert('Link copiado al portapapeles');
   }
 

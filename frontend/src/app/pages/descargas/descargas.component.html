@@ -49,11 +49,18 @@
     <div class="fotos-lista">
       <div class="foto-item" *ngFor="let link of datos.links; let i = index">
         <div class="foto-numero">Foto {{ i + 1 }}</div>
-        <button mat-stroked-button class="btn-descargar"
-          (click)="descargarFoto(link, true)">
-          <mat-icon>download</mat-icon>
-          Descargar
-        </button>
+        <div class="foto-acciones">
+          <button mat-stroked-button class="btn-ver"
+            (click)="verFoto(link)">
+            <mat-icon>visibility</mat-icon>
+            Ver
+          </button>
+          <button mat-stroked-button class="btn-descargar"
+            (click)="descargarFoto(link, true)">
+            <mat-icon>download</mat-icon>
+            Descargar
+          </button>
+        </div>
       </div>
     </div>
 

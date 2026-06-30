@@ -133,3 +133,8 @@
   color: #f0f0f8 !important;
   border-color: #7070a0 !important;
 }
+
+.foto-acciones {
+  display: flex;
+  gap: 8px;
+}
