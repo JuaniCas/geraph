@@ -35,8 +35,8 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>WhatsApp o Email</mat-label>
-      <input matInput [(ngModel)]="contacto" placeholder="Ej: +54 261 555-1234"/>
+      <mat-label>Número de WhatsApp</mat-label>
+      <input matInput [(ngModel)]="contacto" type="tel" placeholder="Ej: 2634589045"/>
     </mat-form-field>
 
     <p class="error" *ngIf="error">{{ error }}</p>

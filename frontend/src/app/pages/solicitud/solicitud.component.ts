@@ -70,6 +70,13 @@ export class SolicitudComponent implements OnInit {
       return;
     }
 
+    const soloNumeros = this.contacto.replace(/\D/g, '');
+    if (soloNumeros.length < 8) {
+      this.error = 'Ingresá un número de WhatsApp válido';
+      return;
+    }
+
+
     this.enviando = true;
     this.error = '';
 
